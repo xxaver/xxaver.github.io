@@ -5,8 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raubtiermodus</title>
     <style>
+      @keyframes fadein {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(-50%);
+          opacity: 1;
+        }
+      }
+      @keyframes fadeout {
+        0% {
+          transform: translateY(-50%);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 0;
+        }
+      }
       * {
-        font-family: "Courier New", Courier, monospace;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
         text-align: center;
       }
       p {
@@ -14,19 +35,73 @@
       }
       h1 {
         font-size: 5vw;
-      }
-      div {
+        animation: fadein 1s ease;
         position: fixed;
         top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        left: 0;
+        transform: translateY(-50%);
+        width: 100%;
+        margin: 0;
+        transition: all 1s ease;
+        cursor: default;
+      }
+      h1:hover {
+        color: green;
+      }
+      /*
+      h1::before {
+        content: "";
+        transition: all 1s ease;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 10px;
+        width: 0;
+        border-radius: 10px;
+        background-color: black;
+      }
+      h1:hover::before {
+        width: 100%;
+      }*/
+      div {
+      }
+      .out {
+        animation: fadeout 1s ease;
       }
     </style>
+    <script>
+      window.addEventListener("load", () => {
+        const cites = [
+          "Du kannst es doch.\nMeld dich doch mal.",
+          "ABSOLUT RICHTIG!",
+          "RAUBTIERMODUS",
+          "NICHT ANHOPSEN!",
+          "AUF DIE BOGENLAMPE ACHTEN!",
+        ];
+        let last = cites[Math.floor(Math.random() * cites.length)];
+        const next = () => {
+          console.log(last);
+          const cite = cites.filter((c) => c !== last)[
+            Math.floor(Math.random() * (cites.length - 1))
+          ];
+          last = cite;
+          const h1 = document.createElement("h1");
+          h1.textContent = cite;
+          div.appendChild(h1);
+        };
+        const div = document.querySelector("div");
+        setInterval(() => {
+          div.querySelectorAll("h1").forEach((h) => {
+            h.classList.add("out");
+            h.addEventListener("animationend", () => h.remove());
+          });
+          setTimeout(() => next(), 1000);
+        }, 4000);
+        next();
+      });
+    </script>
   </head>
   <body>
-    <div>
-      <h1>NICHT ANHOPSEN</h1>
-      <p>MCTobi ist cool</p>
-    </div>
+    <div></div>
   </body>
 </html>
