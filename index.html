@@ -7,25 +7,19 @@
     <style>
       @keyframes rainbow {
         0% {
+          color: black;
+        }
+        20% {
           color: red;
         }
-        15% {
-          color: orange;
-        }
-        30% {
-          color: yellow;
-        }
-        45% {
-          color: green;
-        }
-        60% {
+        50% {
           color: blue;
         }
-        75% {
+        80% {
           color: indigo;
         }
         100% {
-          color: red;
+          color: black;
         }
       }
       @keyframes fromleft {
@@ -38,21 +32,21 @@
       }
       @keyframes fadein {
         0% {
-          transform: translateY(-100%);
+          transform: translate(-50%, -100%);
           opacity: 0;
         }
         100% {
-          transform: translateY(-50%);
+          transform: translate(-50%, -50%);
           opacity: 1;
         }
       }
       @keyframes fadeout {
         0% {
-          transform: translateY(-50%);
+          transform: translate(-50%, -50%);
           opacity: 1;
         }
         100% {
-          transform: translateY(0);
+          transform: translate(-50%, 0);
           opacity: 0;
         }
       }
@@ -79,24 +73,26 @@
         width: 100%;
         text-align: center;
       }
-      h1 {
+      .text {
         font-size: 5vw;
         animation: fadein 1s ease;
         position: fixed;
         top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        width: 100%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: max-content;
         margin: 0;
         transition: all 1s ease;
         cursor: default;
       }
-      h1:hover,
-      h1:active {
-        color: green;
+      .text:hover > span {
+        animation: rainbow 3s linear infinite;
       }
-      /*
-      h1::before {
+      /*.text:active {
+        color: red;
+      }
+      
+      text::before {
         content: "";
         transition: all 1s ease;
         position: absolute;
@@ -107,16 +103,16 @@
         border-radius: 10px;
         background-color: black;
       }
-      h1:hover::before {
+      text:hover::before {
         width: 100%;
       }*/
-      div:has(h1:hover) p,
-      div:has(h1:active) p {
+      div:has(.text:hover) p,
+      div:has(.text:active) p {
         opacity: 1;
         transform: none;
       }
-      div:has(h1:hover) img,
-      div:has(h1:active) img {
+      div:has(.text:hover) img,
+      div:has(.text:active) img {
         opacity: 0.5;
         transform: translate(-50%, 0) scale(1);
       }
@@ -140,15 +136,18 @@
             Math.floor(Math.random() * (cites.length - 1))
           ];
           last = cite;
-          const h1 = document.createElement("h1");
-          h1.innerHTML = cite;
-          div.appendChild(h1);
+          const text = document.createElement("div");
+          const span = document.createElement("span");
+          text.appendChild(span);
+          text.classList.add("text");
+          span.innerHTML = cite;
+          div.appendChild(text);
         };
         const div = document.querySelector("div");
         setInterval(() => {
-          div.querySelectorAll("h1").forEach((h) => {
+          div.querySelectorAll(".text").forEach((h) => {
             h.classList.add("out");
-            h.addEventListener("animationend", () => h.remove());
+            setTimeout(() => h.remove(), 1000);
           });
           setTimeout(() => next(), 1000);
         }, 4000);
@@ -159,7 +158,7 @@
   <body>
     <div>
       <img src="./eberle.jpg" alt="Eberle" />
-      <p>Abonniert MCTobi auf YouTube</p>
+      <p>Abonniert MCTobi auf YouTube !!</p>
     </div>
   </body>
 </html>
