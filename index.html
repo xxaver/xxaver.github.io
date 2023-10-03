@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Raubtiermodus</title>
     <style>
+      @keyframes rainbow {
+        0% {
+          color: red;
+        }
+        15% {
+          color: orange;
+        }
+        30% {
+          color: yellow;
+        }
+        45% {
+          color: green;
+        }
+        60% {
+          color: blue;
+        }
+        75% {
+          color: indigo;
+        }
+        100% {
+          color: red;
+        }
+      }
+      @keyframes fromleft {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
       @keyframes fadein {
         0% {
           transform: translateY(-100%);
@@ -30,8 +61,23 @@
           "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
         text-align: center;
       }
+      p,
+      img {
+        opacity: 0;
+        transition: all 1s ease;
+        transform: translate(-50%, 20%) scale(0.8);
+        position: fixed;
+        width: 50%;
+        left: 50%;
+        border-radius: 100%;
+      }
       p {
+        transform: scale(0.9) translateY(-100%);
         font-size: 2.5vw;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        text-align: center;
       }
       h1 {
         font-size: 5vw;
@@ -45,7 +91,8 @@
         transition: all 1s ease;
         cursor: default;
       }
-      h1:hover {
+      h1:hover,
+      h1:active {
         color: green;
       }
       /*
@@ -63,7 +110,15 @@
       h1:hover::before {
         width: 100%;
       }*/
-      div {
+      div:has(h1:hover) p,
+      div:has(h1:active) p {
+        opacity: 1;
+        transform: none;
+      }
+      div:has(h1:hover) img,
+      div:has(h1:active) img {
+        opacity: 0.5;
+        transform: translate(-50%, 0) scale(1);
       }
       .out {
         animation: fadeout 1s ease;
@@ -72,7 +127,7 @@
     <script>
       window.addEventListener("load", () => {
         const cites = [
-          "Du kannst es doch.\nMeld dich doch mal.",
+          "Du kannst es doch.<br>Meld dich doch mal.",
           "ABSOLUT RICHTIG!",
           "RAUBTIERMODUS",
           "NICHT ANHOPSEN!",
@@ -86,7 +141,7 @@
           ];
           last = cite;
           const h1 = document.createElement("h1");
-          h1.textContent = cite;
+          h1.innerHTML = cite;
           div.appendChild(h1);
         };
         const div = document.querySelector("div");
@@ -102,6 +157,9 @@
     </script>
   </head>
   <body>
-    <div></div>
+    <div>
+      <img src="./eberle.jpg" alt="Eberle" />
+      <p>Abonniert MCTobi auf YouTube</p>
+    </div>
   </body>
 </html>
